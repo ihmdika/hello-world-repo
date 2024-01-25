@@ -1,10 +1,17 @@
 name: Hello World
+
 on: 
   workflow_dispatch:
+  push:
+  
 jobs:
     hello-job:
-      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          os: [ubuntu-latest, ubuntu-20.04]
+          image: [hello-world, alpine]
+      runs-on: ${{ matrix.os }}
       steps:
-      - name: Echo text 
-        run: echo "Hello, world!"
+      - name: Run docker on ${{matrix.os}} 
+        run: docker run ${{matrix.image}}
         
